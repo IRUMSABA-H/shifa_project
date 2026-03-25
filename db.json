@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "zainab@test.com",
+      "password": "123"
+    },
+    {
+      "id": "2",
+      "email": "irum@test.com",
+      "password": "1233"
+    }
+  ],
+  "Patient": [
+    {
+      "id": "0088",
+      "key": "ce2aef4b-35b8-48a8-b694-142453594afb",
+      "userId": "1",
+      "mrno": "11",
+      "patientName": "aa",
+      "relation": "ss",
+      "patientType": "Donor",
+      "transplant": "Liver Transplant",
+      "surgeryLocation": "aa",
+      "surgeryDate": "09-Mar-2026",
+      "arrivalLocation": "ER",
+      "arrivalDate": "09-Mar-2026"
+    },
+    {
+      "id": "8da3",
+      "key": "46e89289-6823-47d8-9c8e-75b9436f9c8a",
+      "userId": "2",
+      "mrno": "112",
+      "patientName": "sadd",
+      "relation": "sister",
+      "patientType": "Recipient",
+      "transplant": "Kidney Transplant",
+      "surgeryLocation": "aa",
+      "surgeryDate": "11-Mar-2026",
+      "arrivalLocation": "ER",
+      "arrivalDate": "11-Mar-2026"
+    },
+    {
+      "id": "86da",
+      "key": "0852255f-f15f-4f69-a62b-6fdea376b4cc",
+      "userId": "2",
+      "mrno": "112",
+      "patientName": "dianaa",
+      "relation": "sister",
+      "patientType": "Recipient",
+      "transplant": "Cornea Transplant",
+      "surgeryLocation": "aa",
+      "surgeryDate": "11-Mar-2026",
+      "arrivalLocation": "ER",
+      "arrivalDate": "11-Mar-2026"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

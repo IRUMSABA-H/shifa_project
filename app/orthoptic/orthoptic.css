@@ -1,0 +1,47 @@
+.visual  .ant-table-thead > tr > th {
+  background-color: #096ea1; /* sky-600 color */
+  color: white;
+   text-align: center;
+  padding:4px !important;
+ border-radius: 0px !important;
+}
+.visual .ant-table-tbody>tr>td{
+  text-align: center;
+  padding: 4px !important;
+}
+
+.va-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.va-inputs button {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
+}
+
+.va-inputs button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(14, 165, 233, 0.4);
+}
+
+.va-inputs button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.button{
+  background-color: #0284c7;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
+}

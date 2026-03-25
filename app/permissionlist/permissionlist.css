@@ -1,0 +1,163 @@
+.permission-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0 10px;
+}
+
+.permission-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.permission-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.permission-refresh-icon {
+  font-size: 14px;
+  color: black;
+  cursor: pointer;
+}
+
+.permission-search {
+  width: 260px;
+}
+
+.permission-table .ant-table-thead > tr > th {
+  background-color: #096ea1;
+  color: #fff !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  border-radius: 0px !important;
+  
+  /* padding: 8px !important; */
+}
+
+
+/* permission table padding */
+.permission-table .ant-table-tbody > tr > td {
+  font-size: 12px;
+  padding: 6px 8px !important;
+}
+
+.permission-table .ant-table-expanded-row > .ant-table-cell {
+  border-radius: none !important;
+  padding: 0 !important;
+}
+
+.permission-name-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.folder-row {
+  font-weight: 600;
+  color: #2e5f89;
+}
+/* for the icons of the permission table */
+.permission-file-icon {
+  color: #7aa4c7;
+  font-size: 12px;
+}
+
+.permission-folder-icon {
+  color: #5f8fb8;
+  font-size: 12px;
+}
+
+.custom-expand-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #93c5fd;
+  border-radius: 6px;
+  color: #2563eb;
+  font-size: 10px;
+  cursor: pointer;
+  background: #eff6ff;
+}
+
+.expand-placeholder {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+.permission-table .ant-table-tbody > tr:hover > td {
+  background: #f1f5f9 !important;
+}
+
+.permission-col-filter,
+.permission-col-filter-active {
+  font-size: 14px;
+}
+
+.permission-col-filter {
+  color: #ffffff;
+}
+
+.permission-col-filter-active {
+  color: #ffffff;
+}
+
+.permission-filter-dropdown {
+  width: 220px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #dbe3ec;
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+.permission-filter-input .ant-input {
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.permission-filter-actions {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.permission-filter-btn {
+  height: 34px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.permission-filter-btn-primary {
+  background:#096ea1 ;
+  color: #ffffff;
+}
+
+.permission-filter-btn-outline {
+  background: #ffffff;
+  border-color: #096ea1;
+  color: #096ea1;
+}
+
+@media (max-width: 900px) {
+  .permission-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .permission-search {
+    width: 100%;
+  }
+}
