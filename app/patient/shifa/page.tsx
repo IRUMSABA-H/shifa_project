@@ -16,7 +16,7 @@ import Header from "@/app/components/header";
 import ShifaForm from "./Addformshifa";
 import type { ShifaFormData } from "./Addformshifa";
 
-import "../shifa/tabestyle.css";
+import styles from "../shifa/tabestyle.module.css";
 
 import { FaRegEye, FaUserMd, FaLungs, FaEye } from "react-icons/fa";
 
@@ -259,7 +259,7 @@ export default function ShifaPage() {
         (item.file?.size ? item.file.size / 1024 : 0).toFixed(2) + " KB",
     }));
 
-    console.table(documentsSummary); // table format mein behtar dikhta hai
+    console.table(documentsSummary); // table format mein  dikhta hai
 
     console.log("Full Uploads Data:", uploads);
 
@@ -428,9 +428,9 @@ export default function ShifaPage() {
     >
       <div className="min-h-screen bg-gray-50 p-5 pt-18">
         {contextHolder}
-        <Header onAddClick={() => setIsModalOpen(true)} />
+         <Header onAddClick={() => setIsModalOpen(true)} />
 
-        <Tabs />
+        <Tabs /> 
 
         <div className="p-4 bg-white shadow-md mt-1 rounded-sm border border-gray-100">
           <div className="flex justify-between items-center mb-4">
@@ -440,7 +440,7 @@ export default function ShifaPage() {
               </h2>
 
               <ReloadOutlined
-                className="shifa-refresh-icon "
+                className={styles.refreshIcon}
                 onClick={handleRefreash}
               />
             </div>
@@ -459,7 +459,7 @@ export default function ShifaPage() {
             pagination={false}
             bordered
             rowKey="key"
-            className="custom-table"
+            className={`${styles.customTable} ${styles.tableScope}`}
             scroll={{ x: true }}
             locale={{ emptyText: "No patient records found" }}
           />
@@ -492,7 +492,7 @@ export default function ShifaPage() {
           width={800}
           centered
           closable={false}
-          className="upload-modal"
+          rootClassName={styles.modalMaskTransparent}
           maskClosable={false}
         >
           <div className="absolute top-0 left-0 w-full bg-sky-700 text-white text-sm font-semibold px-4 py-2 rounded-t-sm">

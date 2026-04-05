@@ -11,7 +11,7 @@ import {
 } from "antd";
 import Header from "@/app/components/header";
 import NonShifaForm from "./Addformnonshifa";
-import "../shifa/tabestyle.css";
+import styles from "../shifa/tabestyle.module.css";
 import { FaRegEye } from "react-icons/fa";
 import { FaUserMd } from "react-icons/fa";
 import { GiKidneys } from "react-icons/gi";
@@ -368,7 +368,7 @@ export default function NonShifaPage() {
       <div className=" min-h-screen bg-white pt-18 p-5">
         {contextHolder}
         <Header onAddClick={() => setIsModalOpen(true)} />
-        <Tabs />
+        <Tabs /> 
 
         <div className="p-4 bg-white shadow-md mt-1 ">
           <div className="flex justify-between items-center mb-3">
@@ -377,7 +377,7 @@ export default function NonShifaPage() {
                 OTR Patients List (Non-Shifa)
               </h2>
               <ReloadOutlined
-                className="shifa-refresh-icon "
+                className={styles.refreshIcon}
                 onClick={handleRefreash}
               />
             </div>
@@ -396,7 +396,7 @@ export default function NonShifaPage() {
             dataSource={paginatedData}
             pagination={false}
             bordered
-            className="custom-table"
+            className={`${styles.customTable} ${styles.tableScope}`}
             rowKey="key"
             locale={{ emptyText: "no patient record found" }}
           />
@@ -540,7 +540,7 @@ export default function NonShifaPage() {
           closable={false}
           mask={true}
           maskClosable={true}
-          className="upload-modal"
+          rootClassName={styles.modalMaskTransparent}
         >
           {/* Blue Header Bar - Image Jaisa */}
           <div className="absolute top-0 left-0 w-full bg-sky-700 text-white text-sm font-semibold px-4 py-2 rounded-t-sm shadow-sm flex justify-between items-center">

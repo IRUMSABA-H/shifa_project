@@ -1,248 +1,598 @@
 "use client";
 import { useState } from "react";
-import { Checkbox, Table, Input,Button } from "antd"; // Input import kiya
-import { TableOutlined, CheckCircleOutlined } from "@ant-design/icons";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import "../orthoptic.css";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Radio,
+  Row,
+  Select,
+  Table,
+  message,
+  Col,
+  type TableColumnsType,
+} from "antd";
+import { TableOutlined } from "@ant-design/icons";
+import styles from "../orthoptic.module.css";
+import { FaCheckCircle } from "react-icons/fa";
 
-interface TableRow {
+type EyeSide = "Right Eye" | "Left Eye";
+type Category = "With Glasses" | "Without Glasses" | "With Pin Hole";
+type AssessmentMode = "system" | "manual";
+type SystemType = "british" | "american";
+type ManualType = "hand" | "light" | "nolight";
+
+type AssessmentRow = {
   key: string;
-  chart: string;
-  note?: string;
-  right?: string;
-  left?: string;
-  withoutright?: string;
-  withoutleft?: string;
-}
+  category: Category;
+  eye: EyeSide;
+  criteria: string;
+  british: string;
+  american: string;
+  value1: string;
+  value2: string;
+  hand: string;
+  light: string;
+  nolight: string;
+  datetime: string;
+};
+
+type AssessmentFormValues = {
+  selectType?: Category;
+  eyeSide?: EyeSide;
+  mode?: AssessmentMode;
+  systemType?: SystemType;
+  numerator?: string;
+  denominator?: string;
+  manualType?: ManualType;
+  chartNotes?: string;
+};
 
 const VisualAssest = () => {
-  // 1. States merge aur fix kiye
-  const [isVisualAcuityYes, setIsVisualAcuityYes] = useState(false);
+  const [form] = Form.useForm<AssessmentFormValues>();
+  const [isVisualAcuityYes, setIsVisualAcuityYes] = useState<boolean | null>(
+    null,
+  );
   const [selectedChart, setSelectedChart] = useState<string | null>(null);
-  const [currentNote, setCurrentNote] = useState("");
-  const [savedData, setSavedData] = useState<Record<string, TableRow[]>>({});
-  
-  const [vaInputs, setVaInputs] = useState({
-    withGlasses: false,
-    withoutGlasses: false,
-    right: "",
-    left: "",
-    withoutright: "",
-    withoutleft: "",
-  });
-
-  // 2. Handlers fix kiye
-  const handleVAInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setVaInputs((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleVACheckboxChange = (e: CheckboxChangeEvent) => {
-    const { name, checked } = e.target;
-    if (!name) return;
-    setVaInputs((prev) => ({ ...prev, [name]: checked }));
-  };
-
-  const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCurrentNote(e.target.value);
-  };
-
-  const handleChartSelect = (chart: string) => {
-    setSelectedChart(chart);
-    setVaInputs({
-      withGlasses: false,
-      withoutGlasses: false,
-      right: "",
-      left: "",
-      withoutright: "",
-      withoutleft: "",
+  const [tableDataByChart, setTableDataByChart] = useState<
+    Record<string, AssessmentRow[]>
+  >({});
+  const currentChartData = selectedChart
+    ? tableDataByChart[selectedChart] || []
+    : [];
+  const columns: TableColumnsType<AssessmentRow> = [
+    {
+      title: "",
+      dataIndex: "category",
+      key: "category",
+      onCell: (_record, index) => ({
+        rowSpan: index !== undefined && index % 2 === 0 ? 2 : 0,
+      }),
+      render: (text: string) => <strong>{text}</strong>,
+    },
+    { title: "", dataIndex: "eye", key: "eye" },
+    { title: "Criteria", dataIndex: "criteria", key: "criteria" },
+    {
+      title: "British System",
+      dataIndex: "british",
+      key: "british",
+      align: "center",
+      render: (value: string) =>
+        value === "selected" && (
+          <div className="flex justify-center  items-center w-full">
+            <FaCheckCircle style={{ color: "green" }} />
+          </div>
+        ),
+    },
+    {
+      title: "American System",
+      dataIndex: "american",
+      key: "american",
+      align: "center",
+      render: (value: string) =>
+        value === "selected" && (
+          <div className="flex justify-center  items-center w-full">
+            <FaCheckCircle style={{ color: "green" }} />
+          </div>
+        ),
+    },
+    { title: "Numerator", dataIndex: "value1", key: "value1" },
+    { title: "Denominator", dataIndex: "value2", key: "value2" },
+    {
+      title: "Hand Movement",
+      dataIndex: "hand",
+      key: "hand",
+      render: (value: string) =>
+        value === "Yes" && (
+          <div className="flex justify-center  items-center w-full">
+            <FaCheckCircle style={{ color: "green" }} />
+          </div>
+        ),
+    },
+    {
+      title: "Perception of Light",
+      dataIndex: "light",
+      key: "light",
+      render: (value: string) =>
+        value === "Yes" && (
+          <div className="flex justify-center  items-center w-full">
+            <FaCheckCircle style={{ color: "green" }} />
+          </div>
+        ),
+    },
+    {
+      title: "No Perception of Light",
+      dataIndex: "nolight",
+      key: "nolight",
+      align: "center",
+      render: (value: string) =>
+        value === "Yes" && (
+          <div className="flex justify-center 0 items-center w-full">
+            <FaCheckCircle style={{ color: "green" }} />
+          </div>
+        ),
+    },
+    { title: "Date & Time", dataIndex: "datetime", key: "datetime" },
+  ];
+  const resetAssessmentFields = () => {
+    form.setFieldsValue({
+      eyeSide: undefined,
+      mode: undefined,
+      systemType: undefined,
+      numerator: undefined,
+      denominator: undefined,
+      manualType: undefined,
     });
-    setCurrentNote("");
   };
 
-  const handleSave = () => {
-    if (!selectedChart) return;
-    
-    const newEntry: TableRow = {
-      key: Date.now().toString(),
-      chart: selectedChart,
-    };
-
-    if (["OPTOKINETIC NYSTAGMUS", "LEA gratings"].includes(selectedChart)) {
-      if (!currentNote.trim()) return;
-      newEntry.note = currentNote;
-    } else {
-      newEntry.right = vaInputs.right;
-      newEntry.left = vaInputs.left;
-      newEntry.withoutright = vaInputs.withoutright;
-      newEntry.withoutleft = vaInputs.withoutleft;
+  const onFinish = (values: AssessmentFormValues) => {
+    if (!selectedChart) {
+      message.error("Please select a chart first");
+      return;
     }
 
-    setSavedData((prev) => ({
+    if (!values.selectType || !values.eyeSide) {
+      message.error("Please complete the required assessment fields");
+      return;
+    }
+
+    if (!values.mode) {
+      message.error("Please select system based or manual criteria");
+      return;
+    }
+
+    const newEntry: AssessmentRow = {
+      key: Date.now().toString(),
+      category: values.selectType,
+      criteria:
+        values.mode === "system"
+          ? "system based"
+          : values.mode === "manual"
+            ? "manual"
+            : "",
+      eye: values.eyeSide,
+      british: values.systemType === "british" ? "selected" : "",
+      american: values.systemType === "american" ? "selected" : "",
+      value1: values.numerator || "",
+      value2: values.denominator || "",
+      hand: values.manualType === "hand" ? "Yes" : "",
+      light: values.manualType === "light" ? "Yes" : "",
+      nolight: values.manualType === "nolight" ? "Yes" : "",
+      datetime: new Date().toLocaleString(),
+    };
+    form.resetFields([
+      "eyeSide",
+      "mode",
+      "systemType",
+      "numerator",
+      "denominator",
+      "manualType",
+    ]);
+    message.success("Entry added to table");
+    setTableDataByChart((prev) => ({
       ...prev,
       [selectedChart]: [...(prev[selectedChart] || []), newEntry],
     }));
-
-    // Reset fields after save
-    setCurrentNote("");
-    setVaInputs({
-      withGlasses: false,
-      withoutGlasses: false,
-      right: "",
-      left: "",
-      withoutright: "",
-      withoutleft: "",
-    });
   };
-
-  const vaColumns = [
-    { title: "Right (With)", dataIndex: "right", key: "right", render: (text: string) => text || "-" },
-    { title: "Left (With)", dataIndex: "left", key: "left", render: (text: string) => text || "-" },
-    { title: "Right (W/O)", dataIndex: "withoutright", key: "withoutright", render: (text: string) => text || "-" },
-    { title: "Left (W/O)", dataIndex: "withoutleft", key: "withoutleft", render: (text: string) => text || "-" },
-  ];
-
-  // Note column for specific charts
-  const noteColumn = [
-    { title: "Assessment Notes", dataIndex: "note", key: "note" }
-  ];
-
   return (
-    <> {/* Fragment added to wrap multiple divs */}
-      
-      
-      <div className="mt-1 pt-2">
-        <div className="flex items-center justify-between p-4 rounded-lg mb-6 bg-white">
-          <p className="text-black font-bold underline text-sm uppercase">
-            Visual Acuity Assessment
-          </p>
-          <div className="flex gap-6">
-            <Checkbox
-              checked={isVisualAcuityYes}
-              onChange={(e) => setIsVisualAcuityYes(e.target.checked)}
-            >
-              <span className="text-xs">Yes</span>
-            </Checkbox>
-            <Checkbox
-              checked={!isVisualAcuityYes}
-              onChange={(e) => setIsVisualAcuityYes(!e.target.checked)}
-            >
-              <span className="text-xs">No</span>
-            </Checkbox>
-          </div>
+    <div className="pt-2">
+      <div className="mb-2 flex items-center gap-4 rounded-lg p-4">
+        <p className="text-sm font-bold uppercase text-black underline">
+          Visual Acuity Assessment
+        </p>
+        <div className="flex gap-6">
+          <Checkbox
+            checked={isVisualAcuityYes === true}
+            onChange={(e) =>
+              setIsVisualAcuityYes(e.target.checked ? true : null)
+            }
+          >
+            <span className="text-xs">Yes</span>
+          </Checkbox>
+          <Checkbox
+            checked={isVisualAcuityYes === false}
+            onChange={(e) =>
+              setIsVisualAcuityYes(e.target.checked ? false : null)
+            }
+          >
+            <span className="text-xs">No</span>
+          </Checkbox>
         </div>
+      </div>
 
-        {isVisualAcuityYes && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border rounded-xl overflow-hidden shadow-sm bg-white">
-            {/* Left Side: Navigation */}
-            <div className="lg:col-span-4 bg-gray-50 p-5 border-r">
-              <p className="text-[10px] font-bold text-gray-500 uppercase mb-4 tracking-wider">
-                Types of Charts
-              </p>
-              <div className="space-y-2">
-                {[
-                  "OPTOKINETIC NYSTAGMUS",
-                  "LEA gratings",
-                  "LEA symbols",
-                  "Picture Chart",
-                  "E-Chart",
-                  "Snellen Chart",
-                ].map((chart) => (
-                  <div
-                    key={chart}
-                    onClick={() => handleChartSelect(chart)}
-                    className={`p-3 rounded-lg cursor-pointer border transition-all flex items-center justify-between ${
-                      selectedChart === chart 
-                        ? "bg-white border-sky-500 shadow-sm" 
-                        : "bg-transparent border-transparent hover:bg-gray-200"
-                    }`}
-                  >
-                    <span className={`text-[11px] font-bold ${selectedChart === chart ? "text-sky-600" : "text-gray-600"}`}>
-                      {chart}
-                    </span>
-                    {selectedChart === chart && <CheckCircleOutlined className="text-sky-500" />}
-                  </div>
-                ))}
+      {isVisualAcuityYes && (
+        <div className="flex flex-col">
+          <div className="p-4">
+            <p className="mb-2 text-sm tracking-wider text-gray-500">
+              Types of Charts
+            </p>
+            <Select
+              placeholder="Select a chart to record or view data"
+              className="w-full lg:w-1/2"
+              onChange={(value) => setSelectedChart(value)}
+              value={selectedChart}
+              options={[
+                {
+                  value: "OPTOKINETIC NYSTAGMUS",
+                  label: "OPTOKINETIC NYSTAGMUS",
+                },
+                { value: "LEA gratings", label: "LEA gratings" },
+                { value: "LEA symbols", label: "LEA symbols" },
+                { value: "Picture Chart", label: "Picture Chart" },
+                { value: "E-Chart", label: "E-Chart" },
+                { value: "Snellen Chart", label: "Snellen Chart" },
+              ]}
+            />
+          </div>
+
+          <div className="p-5">
+            {!selectedChart ? (
+              <div className="flex h-full flex-col items-center justify-center py-20 text-gray-300">
+                <TableOutlined style={{ fontSize: "60px" }} />
+                <p className="mt-5 text-lg font-medium italic">
+                  Select a chart to record or view data
+                </p>
               </div>
-            </div>
+            ) : (
+              <Form form={form} onFinish={onFinish} size="small" className={styles.formScope}>
+                <div className="va-container animate-in fade-in duration-500">
+                  <h2 className="text-sm font-bold uppercase text-sky-700 mb-1">
+                    Assessment: {selectedChart}
+                  </h2>
 
-            {/* Right Side: Content Area */}
-            <div className="lg:col-span-8 bg-white p-8 min-h-[400px]">
-              {!selectedChart ? (
-                <div className="h-full flex flex-col items-center justify-center text-gray-300 opacity-50">
-                  <TableOutlined style={{ fontSize: "48px" }} />
-                  <p className="mt-4 font-medium italic">Select a chart to record or view data</p>
-                </div>
-              ) : (
-                <div className="animate-in fade-in duration-300">
-                  <div className="flex items-center gap-2 mb-6 border-b pb-2">
-                    <h2 className="text-sm font-bold text-sky-700 uppercase">
-                      Assessment: {selectedChart}
-                    </h2>
-                  </div>
+                  <Form.Item
+                    name="mode"
+                    rules={[{ required: true, message: "" }]}
+                    hidden
+                  >
+                
+                  </Form.Item>
 
-                  {["OPTOKINETIC NYSTAGMUS", "LEA gratings"].includes(selectedChart) ? (
-                    <div>
-                      <textarea
-                        value={currentNote}
-                        onChange={handleNoteChange}
-                        placeholder="Enter notes for this chart assessment..."
-                        className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm mb-4"
-                      />
-                      <div className="flex justify-end">
-                         <Button type="primary" onClick={handleSave} className="button">Save </Button>
+                  {["OPTOKINETIC NYSTAGMUS", "LEA gratings"].includes(
+                    selectedChart,
+                  ) ? (
+                    <div className="flex w-full flex-col gap-5">
+                      <div className="w-full">
+                        <Form.Item
+                          name="chartNotes"
+                          className={`${styles.notesItem} mb-0 w-full`}
+                          style={{ width: "100%" }}
+                        >
+                          <textarea
+                            placeholder="Enter notes..."
+                            rows={4}
+                            className="block min-w-full w-full! rounded-lg border border-gray-300 p-4 text-sm outline-none focus:ring-2 focus:ring-sky-500"
+                            style={{ width: "100%" }}
+                          />
+                        </Form.Item>
                       </div>
-                      
+
+                      <div className="mt-3 flex justify-end">
+                        <Button
+                          type="primary"
+                          className={styles.primaryButton}
+                        >
+                          Save
+                        </Button>
+                      </div>
                     </div>
                   ) : (
-                    <div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        {/* With Glasses Section */}
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-2 p-2 bg-slate-50 rounded border">
-                            <Checkbox name="withGlasses" checked={vaInputs.withGlasses} onChange={handleVACheckboxChange} />
-                            <span className="text-[10px] font-bold text-sky-600 uppercase">With Glasses</span>
-                          </div>
-                          <div className="flex gap-2">
-                            <Input name="right" value={vaInputs.right} onChange={handleVAInputChange} placeholder="Right" className="text-center" />
-                            <Input name="left" value={vaInputs.left} onChange={handleVAInputChange} placeholder="Left" className="text-center" />
-                          </div>
-                        </div>
+                    <div className="  flex flex-col gap-3">
+                      {/* First Row - Type Selection */}
+                      <Row gutter={24} align="middle">
+                        <Col span={3}>
+                          <span className={`font-bold ${styles.required}`}>Select Type</span>
+                        </Col>
+                        <Col span={4}>
+                          <Form.Item
+                            className="mb-0"
+                            name="selectType"
+                            rules={[{ required: true, message: "" }]}
+                          >
+                            <Select
+                              style={{ width: 150 }}
+                              placeholder="select . . ."
+                              options={[
+                                {
+                                  label: "With Glasses",
+                                  value: "With Glasses",
+                                },
+                                {
+                                  label: "Without Glasses",
+                                  value: "Without Glasses",
+                                },
+                                {
+                                  label: "With Pin Hole",
+                                  value: "With Pin Hole",
+                                },
+                              ]}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                          <Form.Item
+                            className="mb-0"
+                            name="eyeSide"
+                            rules={[{ required: true, message: "" }]}
+                          >
+                            <Radio.Group className="flex mr-6">
+                              <Radio value="Right Eye" className={styles.radioOffsetRightEye}>
+                                Right Eye
+                              </Radio>
+                              <Radio value="Left Eye" className={styles.radioOffsetLeftEye}>
+                                Left Eye
+                              </Radio>
+                            </Radio.Group>
+                          </Form.Item>
+                        </Col>
+                      </Row>
 
-                        {/* Without Glasses Section */}
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-2 p-2 bg-slate-50 rounded border">
-                            <Checkbox name="withoutGlasses" checked={vaInputs.withoutGlasses} onChange={handleVACheckboxChange} />
-                            <span className="text-[10px] font-bold text-sky-600 uppercase">Without Glasses</span>
-                          </div>
-                          <div className="flex gap-2">
-                            <Input name="withoutright" value={vaInputs.withoutright} onChange={handleVAInputChange} placeholder="Right" className="text-center" />
-                            <Input name="withoutleft" value={vaInputs.withoutleft} onChange={handleVAInputChange} placeholder="Left" className="text-center" />
-                          </div>
-                        </div>
-                      </div>
+                      {/* Second Row - System Based */}
+                      <Row gutter={24}>
+                        <Col span={3}>
+                          <Form.Item
+                            noStyle
+                            shouldUpdate={(prev, curr) =>
+                              prev.mode !== curr.mode
+                            }
+                          >
+                            {({ getFieldValue, setFieldsValue }) => (
+                              <Radio
+                                checked={getFieldValue("mode") === "system"}
+                                onChange={() =>
+                                  setFieldsValue({
+                                    mode: "system",
+                                    manualType: undefined,
+                                  })
+                                }
+                              >
+                                System Based
+                              </Radio>
+                            )}
+                          </Form.Item>
+                        </Col>
 
-                      <div className="flex justify-center mb-8">
-                        <Button type="primary" onClick={handleSave} className="button">Save </Button>
-                      </div>
+                        <Form.Item
+                          noStyle
+                          // Yahan humne bataya ke jab 'mode' ya 'system_Type' dono mein se kuch bhi badle to update karo
+                          shouldUpdate={(prev, curr) =>
+                            prev.mode !== curr.mode ||
+                            prev.systemType !== curr.systemType
+                          }
+                        >
+                          {({ getFieldValue, setFieldsValue }) => {
+                            const isSystem = getFieldValue("mode") === "system";
+                            const systemType = getFieldValue("systemType");
 
-                      <Table
-                        dataSource={savedData[selectedChart] || []}
-                        columns={vaColumns}
-                        pagination={false}
-                        bordered
-                        size="small"
-                        className="visual"
-                      />
+                            const denominatorOptions =
+                              systemType === "british"
+                                ? Array.from({ length: 10 }, (_, i) => ({
+                                    value: `${i + 1}`,
+                                    label: `${i + 1}`,
+                                  }))
+                                : systemType === "american"
+                                  ? Array.from({ length: 10 }, (_, i) => ({
+                                      value: `${i + 11}`,
+                                      label: `${i + 11}`,
+                                    }))
+                                  : [];
+
+                            return (
+                              <>
+                                <Col span={8}>
+                                  <Form.Item
+                                    name="systemType"
+                                    className="mb-0"
+                                    rules={[
+                                      { required: isSystem, message: "" },
+                                    ]}
+                                  >
+                                    <Radio.Group
+                                      className="flex gap-6 "
+                                      disabled={!isSystem}
+                                      value={getFieldValue("systemType")}
+                                      onChange={(e) => {
+                                        const nextSystemType = e.target
+                                          .value as SystemType | undefined;
+                                        setFieldsValue({
+                                          systemType: nextSystemType,
+                                          numerator:
+                                            nextSystemType === "american"
+                                              ? "20"
+                                              : nextSystemType === "british"
+                                                ? "6"
+                                                : undefined,
+                                          denominator: undefined,
+                                        });
+                                      }}
+                                    >
+                                      <Radio value="british" name="british" className={styles.required}>
+                                        British System (meters)
+                                      </Radio>
+                                      <Radio value="american" className={`${styles.radioOffset} ${styles.required}`} >
+                                        American System (feet)
+                                      </Radio>
+                                    </Radio.Group>
+                                  </Form.Item>
+                                </Col>
+
+                                <Col span={4}>
+                                  <div className="flex items-center gap-1">
+                                    <span className={`text-normal ml-1 ${styles.required}`}>
+                                      Numerator
+                                    </span>
+                                    <Form.Item
+                                      name="numerator"
+                                      rules={[
+                                        { required: isSystem, message: "" },
+                                      ]}
+                                    >
+                                      <Input
+                                        style={{ width: 75 }}
+                                        disabled={!isSystem || !systemType}
+                                        readOnly
+                                      />
+                                    </Form.Item>
+                                  </div>
+                                </Col>
+
+                                <Col span={6}>
+                                  <div className="flex items-center gap-1 ">
+                                    <span className={`text-normal mr-30 ${styles.required}`}>
+                                      /Denominator
+                                    </span>
+                                    <Form.Item
+                                      name="denominator"
+                                      rules={[
+                                        { required: isSystem, message: "" },
+                                      ]}
+                                    >
+                                      <Select
+                                        style={{ width: 75 }}
+                                        disabled={!isSystem || !systemType}
+                                        options={denominatorOptions}
+                                      />
+                                    </Form.Item>
+                                  </div>
+                                </Col>
+                              </>
+                            );
+                          }}
+                        </Form.Item>
+                      </Row>
+
+                      {/* Third Row - Manual */}
+                      <Row gutter={16} align="middle">
+                        <Col span={3}>
+                          <Form.Item
+                            noStyle
+                            shouldUpdate={(prevValues, currentValues) =>
+                              prevValues.mode !== currentValues.mode
+                            }
+                          >
+                            {({ getFieldValue, setFieldsValue }) => (
+                              <Radio
+                              className={styles.required}
+                                checked={getFieldValue("mode") === "manual"}
+                                onChange={() =>
+                                  setFieldsValue({
+                                    mode: "manual",
+                                    systemType: undefined,
+                                    numerator: undefined,
+                                    denominator: undefined,
+                                  })
+                                }
+                              >
+                                Manual
+                              </Radio>
+                            )}
+                          </Form.Item>
+                        </Col>
+                        <Form.Item
+                          noStyle
+                          shouldUpdate={(prevValues, currentValues) =>
+                            prevValues.mode !== currentValues.mode
+                          }
+                        >
+                          {({ getFieldValue }) => {
+                            const ismanual = getFieldValue("mode") === "manual";
+                            return (
+                              <>
+                                <Col span={14}>
+                                  <Form.Item
+                                    className="mb-0"
+                                    name="manualType"
+                                    rules={[
+                                      { required: ismanual, message: "" },
+                                    ]}
+                                  >
+                                    <Radio.Group
+                                      
+                                      disabled={!ismanual}
+                                    >
+                                      <Radio value="hand" name="systemType">
+                                        Hand Movement
+                                      </Radio>
+                                      <Radio value="light" className={styles.radioOffsetLight}>
+                                        Perception of Light
+                                      </Radio>
+                                      <Radio value="nolight" className={styles.radioOffsetNoLight}>
+                                        No Perception of Light
+                                      </Radio>
+                                    </Radio.Group>
+                                  </Form.Item>
+                                </Col>
+                                {/* Add Button aligned to the right like in image */}
+                                <Col span={3}>
+                                  <Form.Item>
+                                    <Button
+                                      type="primary"
+                                      className={styles.addButton}
+                                      htmlType="submit"
+                                    >
+                                      Add
+                                    </Button>
+                                  </Form.Item>
+                                </Col>
+                              </>
+                            );
+                          }}
+                        </Form.Item>
+                      </Row>
                     </div>
                   )}
                 </div>
-              )}
-            </div>
+                {currentChartData.length > 0 && (
+                  <div className="mt-10">
+                    <Table
+                      dataSource={currentChartData}
+                      columns={columns}
+                      pagination={false}
+                      bordered
+                      size="small"
+                      className={styles.visualTable}
+                    />
+                    <div className="mt-5 flex justify-end gap-2">
+                      <Button className={styles.secondaryButton} onClick={resetAssessmentFields}>
+                        Clear
+                      </Button>
+                      <Button
+                        type="primary"
+                        className={styles.primaryButton}
+                        onClick={() => form.submit()}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Form>
+            )}
           </div>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+    </div>
   );
 };
 

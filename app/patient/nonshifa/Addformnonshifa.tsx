@@ -77,12 +77,13 @@ const Addformnonshifa = forwardRef<NonShifaFormRef, Props>((props, ref) => {
       <Form
         form={form}
         id="nonshifa-form"
+        size="small"
         layout="horizontal"
         onFinish={onFinish}
         onFinishFailed={()=>onValidationFailed?.()}
         
         labelAlign="left" 
-        labelCol={{ span: 10 }} 
+        labelCol={{ span: 8 }} 
         wrapperCol={{ span: 14 }} 
         className="p-2 bg-white "
         requiredMark={(label, { required }) => (

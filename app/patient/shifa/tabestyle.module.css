@@ -1,0 +1,63 @@
+.customTable {
+  border-radius: 0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.customTable :global(.ant-table-thead) > tr > th {
+  background-color: #0369a1 !important;
+  color: white !important;
+  text-align: center !important;
+  padding: 3px !important;
+  border-radius: 0 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  height: 38px;
+}
+
+.customTable :global(.ant-table-tbody) > tr > td {
+  text-align: center;
+  padding: 4px !important;
+}
+
+.customTable :global(.ant-table-tbody) > tr:hover > td {
+  background-color: #1995e7;
+}
+
+.modalMaskTransparent :global(.ant-modal-mask) {
+  background: transparent !important;
+}
+
+.tableScope :global(.ant-table-cell) {
+  font-size: 12px !important;
+  padding: 8px 12px !important;
+}
+
+.tableScope :global(.ant-table-expanded-row) > :global(.ant-table-cell) {
+  padding: 0 !important;
+}
+
+.nestedTableContainer {
+  /* padding: 8px 0 8px 40px !important; */
+  background-color: #f8fafc !important;
+  overflow: hidden;
+}
+
+.innerTable :global(.ant-table-thead) > tr > th {
+  background-color: #2e90ba !important;
+  font-size: 10px !important;
+}
+
+.innerTable .innerTable :global(.ant-table-thead) > tr > th {
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+.innerTable :global(.ant-table-row):hover > td {
+  background-color: #f1f5f9 !important;
+}
+
+.refreshIcon {
+  font-size: 14px;
+  color: black !important;
+  cursor: pointer;
+}

@@ -28,9 +28,17 @@ const Login = () => {
       localStorage.setItem("token", result.token);
 
       router.push("/patient/shifa");
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Login Error Details:", err);
-      alert("Invalid email or password!");
+      const message =
+        typeof err === "object" &&
+        err !== null &&
+        "data" in err &&
+        typeof (err as { data?: { message?: string } }).data?.message === "string"
+          ? (err as { data: { message: string } }).data.message
+          : "Login failed. Make sure json-server is running on port 5000.";
+
+      alert(message);
     }
   };
 

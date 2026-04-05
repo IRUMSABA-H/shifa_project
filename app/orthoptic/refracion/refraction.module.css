@@ -1,0 +1,48 @@
+.refractionDataRow {
+  margin-top: 4px;
+}
+
+.refractionDataRow :global(.ant-col) {
+  display: flex;
+  align-items: center;
+}
+
+.refractionItem {
+  margin-bottom: 0 !important;
+}
+
+.refractionRadioGroup {
+  display: flex;
+}
+
+.icon {
+  color: red;
+  font-size: large;
+  cursor: pointer;
+}
+
+.col {
+  margin-left: 14px;
+}
+
+.addButton {
+  border: none;
+  background-color: #4cacf0;
+  margin-left: 15px;
+}
+
+.nextButton {
+  color: white;
+  background-color: #096ea1;
+  border: none;
+}
+
+.saveButton {
+  color: white;
+  background-color: green;
+  border: none;
+}
+
+.inputSpacing {
+  margin-right: 50px;
+}

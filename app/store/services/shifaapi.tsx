@@ -18,6 +18,11 @@ type LoginResponse = {
     token: string;
 };
 
+type SignupCredentials = {
+    email: string;
+    password: string;
+};
+
 type Patient = {
     key: string;
     userId?: string;
@@ -116,10 +121,53 @@ export const ShifaApi=createApi({
 
                 return { data: { user, token: "fake-jwt-token-123" } };
             },
+        }),
+        signupUser:builder.mutation<User, SignupCredentials>({
+            async queryFn(credentials, _, __, fetchWithBQ) {
+                const trimmedEmail = credentials.email.trim().toLowerCase();
+
+                const existingUsersResult = await fetchWithBQ({
+                    url: "/users",
+                    method: "GET",
+                    params: { email: trimmedEmail },
+                });
+
+                if (existingUsersResult.error) {
+                    return { error: existingUsersResult.error as FetchBaseQueryError };
+                }
+
+                const existingUsers = (existingUsersResult.data ?? []) as User[];
+                if (existingUsers.length > 0) {
+                    return {
+                        error: {
+                            status: 409,
+                            data: { message: "User already exists" },
+                        } as FetchBaseQueryError,
+                    };
+                }
+
+                const newUser: User = {
+                    id: crypto.randomUUID(),
+                    email: trimmedEmail,
+                    password: credentials.password,
+                };
+
+                const createUserResult = await fetchWithBQ({
+                    url: "/users",
+                    method: "POST",
+                    data: newUser,
+                });
+
+                if (createUserResult.error) {
+                    return { error: createUserResult.error as FetchBaseQueryError };
+                }
+
+                return { data: createUserResult.data as User };
+            },
         })
 
 
     })
 
  })
-  export const {useGetPatientsQuery,useAddPatientMutation,useLoginUserMutation ,useDeletePatientMutation}=ShifaApi;
+  export const {useGetPatientsQuery,useAddPatientMutation,useLoginUserMutation,useSignupUserMutation,useDeletePatientMutation}=ShifaApi;

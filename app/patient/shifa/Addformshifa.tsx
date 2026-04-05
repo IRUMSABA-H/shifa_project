@@ -106,12 +106,13 @@ const ShifaForm = forwardRef<ShifaFormRef, Props>((props, ref) => {
     <div className="mt-5">
       <Form
         form={form}
+        size="small"
         id="shifa-form"
         layout="horizontal"
         onFinish={onFinish}
         onFinishFailed={() => onValidationFailed?.()}
         labelAlign="left"
-        labelCol={{ span: 10 }}
+        labelCol={{ span: 8 }}
         wrapperCol={{ span: 14 }}
         className="p-4 bg-white"
         requiredMark={(label, { required }) => (

@@ -1,0 +1,209 @@
+.visualTable :global(.ant-table-thead) > tr > th {
+  border-inline-end: none !important;
+  background-color: #096ea1 !important;
+  color: white !important;
+  font-size: 12px;
+  text-align: center;
+}
+
+.visualTable :global(.ant-table-tbody) > tr > td {
+  padding: 4px !important;
+}
+
+.vaInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vaInputs button {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
+}
+
+.vaInputs button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(14, 165, 233, 0.4);
+}
+
+.vaInputs button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.saveButton {
+  background-color: #0284c7;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
+}
+
+.required::after {
+  content: " *";
+  color: #f01c20;
+  font-family: SimSun, sans-serif;
+  margin-left: 0;
+  font-size: 14px;
+}
+
+.addButton {
+  background-color: green;
+  border: none;
+  padding: 10px 14px;
+  font-weight: normal;
+  transition: all 0.3s ease;
+  margin-left: 30px;
+}
+
+.primaryButton {
+  background-color: #096ea1;
+  color: white;
+  padding: 10px 10px;
+  min-width: 100px;
+}
+
+.secondaryButton {
+  background-color: white;
+  color: #096ea1;
+  padding: 10px 5px;
+  border-color: #096ea1;
+  min-width: 100px;
+}
+
+.successButton {
+  background-color: green;
+  color: white;
+  padding: 12px 20px;
+  margin-right: 70px;
+}
+
+.vaTypeSelect {
+  width: 160px !important;
+}
+
+.vaAssessmentRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+}
+
+.vaAssessmentSection {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 10px;
+}
+
+.vaInlineOptions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.vaFractionGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.vaFormWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.vaRow {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxSpacing {
+  margin-left: 19px;
+}
+
+.inputSpacing {
+  margin-right: 19px;
+}
+
+.vaLabel {
+  width: 140px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: start;
+}
+
+.vaContent {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.vaFractionBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.vaAddBtn {
+  background-color: #008d4f !important;
+  border: none !important;
+  padding: 10px 15px !important;
+  height: 26px !important;
+  font-weight: 300;
+}
+
+.formScope :global(.ant-form-item) {
+  margin-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+.notesItem {
+  display: block !important;
+  width: 100% !important;
+}
+
+.notesItem :global(.ant-form-item-control),
+.notesItem :global(.ant-form-item-control-input),
+.notesItem :global(.ant-form-item-control-input-content) {
+  width: 100% !important;
+}
+
+.radioOffset {
+  margin-left: 22px;
+}
+
+.radioOffsetLight {
+  margin-left: 58px;
+}
+
+.radioOffsetLeftEye {
+  margin-left: 98px;
+}
+
+.radioOffsetRightEye {
+  margin-right: 15px;
+}
+
+.radioOffsetNoLight {
+  margin-left: 50px;
+}
+
+.denominator {
+  margin-right: 200px;
+}
+
+.denominatorr {
+  margin-left: 0;
+}

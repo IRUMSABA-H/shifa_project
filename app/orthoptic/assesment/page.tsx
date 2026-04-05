@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { FileTextOutlined, SaveOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Row, Col } from "antd";
-import "../orthoptic.css";
+import styles from "../orthoptic.module.css";
 
 const OrthopticAssessment = () => {
   const [form] = Form.useForm();
@@ -22,34 +22,29 @@ const OrthopticAssessment = () => {
 
   // Grid Configuration for perfect alignment
   const labelCol = { span: 4 }; // Hx of ...
-  const choiceCol = { span: 4 }; // No / Yes
+  const choiceCol = { span: 4}; // No / Yes
   const inputCol = { span: 16 }; // Input Fields
 
   const rowStyle = {
-    // borderBottom: "1px solid #f0f0f0",
+    
     minHeight: "40px",
     display: "flex",
     alignItems: "center",
-    padding: "4px 0",
+    padding: "2px 0",
   };
 
   return (
     <section className="p-6 bg-white shadow-sm rounded-lg">
       <Form form={form}
       layout="horizontal"
+      size="small"
+      className={styles.formScope}
        >
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-center">
           <h1 className="text-xl font-bold uppercase text-sky-900 flex items-center">
             <FileTextOutlined className="mr-2" /> Patient History
           </h1>
-          <Button
-            type="primary"
-            htmlType="submit"
-            icon={<SaveOutlined />}
-            className="button"
-          >
-            Save
-          </Button>
+        
         </div>
 
         <div className="flex flex-col">
@@ -58,12 +53,12 @@ const OrthopticAssessment = () => {
             <Col {...labelCol} className="text-sm font-bold text-slate-800">
               Hx of deviation
             </Col>
-            <Col span={20}>
-              <div className="flex gap-8">
+            <Col span={16}>
+              <div className="flex gap-4">
                 {["Left Eye", "Right Eye", "Both Eyes"].map((label) => (
                   <label
                     key={label}
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="flex items-center gap-1 cursor-pointer"
                   >
                     <Checkbox
                       checked={deviation === label}
@@ -95,6 +90,7 @@ const OrthopticAssessment = () => {
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
+                  className={styles.checkboxSpacing}
                     checked={glasses === "yes"}
                     onChange={() => handleChoice("glasses", "yes")}
                   />
@@ -104,19 +100,19 @@ const OrthopticAssessment = () => {
             </Col>
             <Col {...inputCol}>
               {glasses === "yes" && (
-                <div className="flex gap-2 w-full">
+                <div className="flex  gap-2 w-full">
                   <Form.Item name="gright" noStyle>
                     <Input
                       placeholder="Right Eye"
                       size="small"
-                      className="h-8 flex-1"
+                      className="h-7 flex-1 "
                     />
                   </Form.Item>
                   <Form.Item name="gleft" noStyle>
                     <Input
                       placeholder="Left Eye"
                       size="small"
-                      className="h-8 flex-1"
+                      className="h-7 flex-1"
                     />
                   </Form.Item>
                 </div>
@@ -140,6 +136,7 @@ const OrthopticAssessment = () => {
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
+                   className={styles.checkboxSpacing}
                     checked={patching === "yes"}
                     onChange={() => handleChoice("patching", "yes")}
                   />
@@ -154,14 +151,14 @@ const OrthopticAssessment = () => {
                     <Input
                       placeholder="Right"
                       size="small"
-                      className="h-8 flex-1"
+                      className="h-7 flex-1"
                     />
                   </Form.Item>
                   <Form.Item name="pleft" noStyle>
                     <Input
                       placeholder="Left"
                       size="small"
-                      className="h-8 flex-1"
+                      className="h-7 flex-1"
                     />
                   </Form.Item>
                 </div>
@@ -185,6 +182,7 @@ const OrthopticAssessment = () => {
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
+                   className={styles.checkboxSpacing}
                     checked={traumaStatus === "yes"}
                     onChange={() => handleChoice("traumaStatus", "yes")}
                   />
@@ -198,7 +196,7 @@ const OrthopticAssessment = () => {
                   <Input
                     placeholder="Specify Trauma..."
                     size="small"
-                    className="h-8 w-full"
+                    className="h-7 w-full"
                   />
                 </Form.Item>
               )}
@@ -221,6 +219,7 @@ const OrthopticAssessment = () => {
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
+                   className={styles.checkboxSpacing}
                     checked={surgeryStatus === "yes"}
                     onChange={() => handleChoice("surgeryStatus", "yes")}
                   />
@@ -232,15 +231,26 @@ const OrthopticAssessment = () => {
               {surgeryStatus === "yes" && (
                 <Form.Item name="surgery" noStyle>
                   <Input
+                
                     placeholder="Specify Surgery..."
                     size="small"
-                    className="h-8 w-full"
+                    className={`h-7 w-full ${styles.inputSpacing}`}
                   />
                 </Form.Item>
               )}
             </Col>
           </Row>
         </div>
+        <div className="flex justify-end">
+          <Button
+            type="primary"
+            htmlType="submit"
+            icon={<SaveOutlined />}
+            className={styles.saveButton}
+          >
+            Save
+          </Button>
+          </div>
       </Form>
     </section>
   );

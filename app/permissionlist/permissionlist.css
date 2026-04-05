@@ -30,7 +30,7 @@
 }
 
 .permission-table .ant-table-thead > tr > th {
-  background-color: #096ea1;
+  background-color: #096ea1 !important;
   color: #fff !important;
   font-size: 11px !important;
   text-transform: uppercase;

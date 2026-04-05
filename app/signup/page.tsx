@@ -7,20 +7,17 @@ import { PiPassword } from "react-icons/pi";
 import { RiAccountPinCircleFill } from "react-icons/ri";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import'../login/login.css';
+import '../login/login.css';
+import { useSignupUserMutation } from '../store/services/shifaapi';
 
 const SignUp = () => {
-     interface User {
-    id: string;
-    email: string;
-    password: string;
-}
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
-    const router = useRouter(); // 👈 Router add kiya
+    const [signupUser, { isLoading }] = useSignupUserMutation();
+    const router = useRouter();
 
-    const handlesignup = () => {
+    const handlesignup = async () => {
         if (!email || !password || !confirmPassword) {
             alert("Please fill all fields");
             return;
@@ -30,25 +27,25 @@ const SignUp = () => {
             return;
         }
 
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const existingUser = users.find((u: User) => u.email === email);
-        
-        if (existingUser) {
-            alert("User already exists!");
-            return;
+        try {
+            await signupUser({
+                email,
+                password,
+            }).unwrap();
+
+            alert("Account created successfully!");
+            router.push("/login");
+        } catch (error: unknown) {
+            const message =
+                typeof error === "object" &&
+                error !== null &&
+                "data" in error &&
+                typeof (error as { data?: { message?: string } }).data?.message === "string"
+                    ? (error as { data: { message: string } }).data.message
+                    : "Signup failed. Make sure json-server is running on port 5000.";
+
+            alert(message);
         }
-
-        const newUser = { 
-            id: crypto.randomUUID(), 
-            email, 
-            password 
-        };
-        
-        users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users));
-
-        alert("Account created successfully!");
-        router.push("/login"); // 👈 Signup ke baad login par bhejo
     };
 
     return (
@@ -59,7 +56,7 @@ const SignUp = () => {
                 </div>
                 <h1 className="text-center font-bold mt-8 text-lg">Shifa International Hospital Ltd.</h1>
                 <h2 className="text-center font-semibold mt-2 text-sky-900">Create your account</h2>
-                
+
                 <div className='mt-4'>
                     <label className="text-sky-800">Email:</label>
                     <Input placeholder="Email" className="rounded-3xl" value={email} onChange={(e) => setEmail(e.target.value)} prefix={<MdOutlineMarkEmailUnread />} />
@@ -72,11 +69,11 @@ const SignUp = () => {
                     <label className="text-sky-800">Confirm Password:</label>
                     <Input placeholder="Confirm Password" type="password" className="rounded-3xl" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} prefix={<PiPassword />} />
                 </div>
-                
-                <button className="bg-sky-700 w-full text-white p-2 mt-6 rounded-2xl flex items-center justify-center gap-2 hover:bg-sky-800 transition-all" onClick={handlesignup}>
+
+                <button className="bg-sky-700 w-full text-white p-2 mt-6 rounded-2xl flex items-center justify-center gap-2 hover:bg-sky-800 transition-all disabled:opacity-60" onClick={handlesignup} disabled={isLoading}>
                     <RiAccountPinCircleFill className="h-5 w-5" /> Create Account
                 </button>
-                
+
                 <p className='text-center mt-4 text-gray-500'>
                     Already have an account? <Link href="/login" className="text-sky-700 font-bold ml-1">Sign In</Link>
                 </p>
