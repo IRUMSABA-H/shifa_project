@@ -229,7 +229,7 @@ const VisualAssest = () => {
             </p>
             <Select
               placeholder="Select a chart to record or view data"
-              className="w-full lg:w-1/2"
+              className="w-full lg:w-full"
               onChange={(value) => setSelectedChart(value)}
               value={selectedChart}
               options={[
@@ -255,7 +255,13 @@ const VisualAssest = () => {
                 </p>
               </div>
             ) : (
-              <Form form={form} onFinish={onFinish} size="small" className={styles.formScope}>
+              <Form
+                form={form}
+                onFinish={onFinish}
+                size="small"
+                className={styles.formScope}
+                layout="horizontal"
+              >
                 <div className="va-container animate-in fade-in duration-500">
                   <h2 className="text-sm font-bold uppercase text-sky-700 mb-1">
                     Assessment: {selectedChart}
@@ -265,9 +271,7 @@ const VisualAssest = () => {
                     name="mode"
                     rules={[{ required: true, message: "" }]}
                     hidden
-                  >
-                
-                  </Form.Item>
+                  ></Form.Item>
 
                   {["OPTOKINETIC NYSTAGMUS", "LEA gratings"].includes(
                     selectedChart,
@@ -289,22 +293,21 @@ const VisualAssest = () => {
                       </div>
 
                       <div className="mt-3 flex justify-end">
-                        <Button
-                          type="primary"
-                          className={styles.primaryButton}
-                        >
+                        <Button type="primary" className={styles.primaryButton}>
                           Save
                         </Button>
                       </div>
                     </div>
                   ) : (
-                    <div className="  flex flex-col gap-3">
+                    <div className="  flex flex-col gap-6">
                       {/* First Row - Type Selection */}
-                      <Row gutter={24} align="middle">
+                      <Row gutter={21} align="middle">
                         <Col span={3}>
-                          <span className={`font-bold ${styles.required}`}>Select Type</span>
+                          <span className={`font-bold ${styles.required}`}>
+                            Select Type
+                          </span>
                         </Col>
-                        <Col span={4}>
+                        <Col span={3}>
                           <Form.Item
                             className="mb-0"
                             name="selectType"
@@ -332,15 +335,22 @@ const VisualAssest = () => {
                         </Col>
                         <Col span={12}>
                           <Form.Item
-                            className="mb-0"
+                            className="mb-0 "
                             name="eyeSide"
                             rules={[{ required: true, message: "" }]}
                           >
-                            <Radio.Group className="flex mr-6">
-                              <Radio value="Right Eye" className={styles.radioOffsetRightEye}>
+                            <Radio.Group className="flex ">
+                              <Radio
+                                value="Right Eye"
+                                className={styles.righteye}
+                              >
                                 Right Eye
                               </Radio>
-                              <Radio value="Left Eye" className={styles.radioOffsetLeftEye}>
+                              <Radio
+                                value="Left Eye"
+                                className={styles.lefteye}
+                                
+                              >
                                 Left Eye
                               </Radio>
                             </Radio.Group>
@@ -349,7 +359,7 @@ const VisualAssest = () => {
                       </Row>
 
                       {/* Second Row - System Based */}
-                      <Row gutter={24}>
+                      <Row gutter={21} align="middle">
                         <Col span={3}>
                           <Form.Item
                             noStyle
@@ -409,7 +419,7 @@ const VisualAssest = () => {
                                     ]}
                                   >
                                     <Radio.Group
-                                      className="flex gap-6 "
+                                      className="flex  "
                                       disabled={!isSystem}
                                       value={getFieldValue("systemType")}
                                       onChange={(e) => {
@@ -427,28 +437,39 @@ const VisualAssest = () => {
                                         });
                                       }}
                                     >
-                                      <Radio value="british" name="british" className={styles.required}>
+                                      <Radio
+                                        value="british"
+                                        name="british"
+                                        
+                                      >
                                         British System (meters)
                                       </Radio>
-                                      <Radio value="american" className={`${styles.radioOffset} ${styles.required}`} >
+                                      <Radio
+                                        value="american"
+                                       className={styles.american}
+                                      >
                                         American System (feet)
                                       </Radio>
                                     </Radio.Group>
                                   </Form.Item>
                                 </Col>
 
-                                <Col span={4}>
+                                <Col span={3} className="mr-4">
                                   <div className="flex items-center gap-1">
-                                    <span className={`text-normal ml-1 ${styles.required}`}>
+                                    <span
+                                      className={styles.numerator}
+                                    >
                                       Numerator
                                     </span>
                                     <Form.Item
+                                   
                                       name="numerator"
                                       rules={[
                                         { required: isSystem, message: "" },
                                       ]}
                                     >
                                       <Input
+                                       className={styles.numerator}
                                         style={{ width: 75 }}
                                         disabled={!isSystem || !systemType}
                                         readOnly
@@ -459,7 +480,9 @@ const VisualAssest = () => {
 
                                 <Col span={6}>
                                   <div className="flex items-center gap-1 ">
-                                    <span className={`text-normal mr-30 ${styles.required}`}>
+                                    <span
+                                      className={styles.denumerator}
+                                    >
                                       /Denominator
                                     </span>
                                     <Form.Item
@@ -469,6 +492,7 @@ const VisualAssest = () => {
                                       ]}
                                     >
                                       <Select
+                                      className={styles.denumerator}
                                         style={{ width: 75 }}
                                         disabled={!isSystem || !systemType}
                                         options={denominatorOptions}
@@ -483,7 +507,7 @@ const VisualAssest = () => {
                       </Row>
 
                       {/* Third Row - Manual */}
-                      <Row gutter={16} align="middle">
+                      <Row gutter={24} align="middle">
                         <Col span={3}>
                           <Form.Item
                             noStyle
@@ -493,7 +517,7 @@ const VisualAssest = () => {
                           >
                             {({ getFieldValue, setFieldsValue }) => (
                               <Radio
-                              className={styles.required}
+                                className={styles.required}
                                 checked={getFieldValue("mode") === "manual"}
                                 onChange={() =>
                                   setFieldsValue({
@@ -519,7 +543,7 @@ const VisualAssest = () => {
                             const ismanual = getFieldValue("mode") === "manual";
                             return (
                               <>
-                                <Col span={14}>
+                                <Col span={12}>
                                   <Form.Item
                                     className="mb-0"
                                     name="manualType"
@@ -527,17 +551,20 @@ const VisualAssest = () => {
                                       { required: ismanual, message: "" },
                                     ]}
                                   >
-                                    <Radio.Group
-                                      
-                                      disabled={!ismanual}
-                                    >
+                                    <Radio.Group disabled={!ismanual}>
                                       <Radio value="hand" name="systemType">
                                         Hand Movement
                                       </Radio>
-                                      <Radio value="light" className={styles.radioOffsetLight}>
+                                      <Radio
+                                        value="light"
+                                        className={styles.radioOffsetLight}
+                                      >
                                         Perception of Light
                                       </Radio>
-                                      <Radio value="nolight" className={styles.radioOffsetNoLight}>
+                                      <Radio
+                                        value="nolight"
+                                        className={styles.radioOffsetNoLight}
+                                      >
                                         No Perception of Light
                                       </Radio>
                                     </Radio.Group>
@@ -548,10 +575,10 @@ const VisualAssest = () => {
                                   <Form.Item>
                                     <Button
                                       type="primary"
-                                      className={styles.addButton}
+                                      className={styles.primaryButton}
                                       htmlType="submit"
                                     >
-                                      Add
+                                      save
                                     </Button>
                                   </Form.Item>
                                 </Col>
@@ -573,18 +600,7 @@ const VisualAssest = () => {
                       size="small"
                       className={styles.visualTable}
                     />
-                    <div className="mt-5 flex justify-end gap-2">
-                      <Button className={styles.secondaryButton} onClick={resetAssessmentFields}>
-                        Clear
-                      </Button>
-                      <Button
-                        type="primary"
-                        className={styles.primaryButton}
-                        onClick={() => form.submit()}
-                      >
-                        Save
-                      </Button>
-                    </div>
+                    
                   </div>
                 )}
               </Form>

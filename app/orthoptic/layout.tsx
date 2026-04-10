@@ -8,6 +8,9 @@ import Tabs from "../components/tabs/page";
 
 export default function OrthopticLayout({ children }: { children: React.ReactNode }) {
  const pathname= usePathname();
+ const selectedMenuKey = pathname.startsWith("/orthoptic/refracion")
+  ? "/orthoptic/refracion/Objective"
+  : pathname;
 
   const menuItems = [
     {
@@ -30,9 +33,9 @@ export default function OrthopticLayout({ children }: { children: React.ReactNod
       } pb-1 font-medium hover:text-sky-600 transition-all duration-200`}>Visual Acuity</Link>,
     },
     {
-      key: "/orthoptic/refracion",
-      label: <Link href="/orthoptic/refracion" className={`${
-        pathname==="/orthoptic/refracion"?
+      key: "/orthoptic/refracion/Objective",
+      label: <Link href="/orthoptic/refracion/Objective" className={`${
+        pathname.startsWith("/orthoptic/refracion")?
         `text-sky-800`:
         `text-gray-600 hover:text-sky-600 transition-all duration-200`
       } pb-1 font-medium hover:text-sky-600 transition-all duration-200`}>Refraction</Link>,
@@ -48,7 +51,7 @@ export default function OrthopticLayout({ children }: { children: React.ReactNod
       <div className="mt-1 bg-white shadow-sm rounded-md overflow-hidden">
         <Menu 
           mode="horizontal" 
-          selectedKeys={[pathname]} 
+          selectedKeys={[selectedMenuKey]} 
           items={menuItems} 
           
         />

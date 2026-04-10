@@ -13,20 +13,6 @@
   ],
   "Patient": [
     {
-      "id": "0088",
-      "key": "ce2aef4b-35b8-48a8-b694-142453594afb",
-      "userId": "1",
-      "mrno": "11",
-      "patientName": "aa",
-      "relation": "ss",
-      "patientType": "Donor",
-      "transplant": "Liver Transplant",
-      "surgeryLocation": "aa",
-      "surgeryDate": "09-Mar-2026",
-      "arrivalLocation": "ER",
-      "arrivalDate": "09-Mar-2026"
-    },
-    {
       "id": "8da3",
       "key": "46e89289-6823-47d8-9c8e-75b9436f9c8a",
       "userId": "2",
@@ -53,7 +39,35 @@
       "surgeryDate": "11-Mar-2026",
       "arrivalLocation": "ER",
       "arrivalDate": "11-Mar-2026"
+    },
+    {
+      "id": "3be8",
+      "key": "27c023f8-e278-47db-9448-b02e1856fe96",
+      "userId": "1",
+      "mrno": "112",
+      "patientName": "zulfiqar",
+      "relation": "sister",
+      "patientType": "Donor",
+      "transplant": "Kidney Transplant",
+      "surgeryLocation": "operation theater",
+      "surgeryDate": "08-Apr-2026",
+      "arrivalLocation": "OPD",
+      "arrivalDate": "08-Apr-2026"
+    },
+    {
+      "id": "e39a",
+      "key": "3361a52c-84f0-4b4f-a29a-e3e82c3f845b",
+      "userId": "1",
+      "mrno": "111",
+      "patientName": "sahar",
+      "relation": "sister",
+      "patientType": "Recipient",
+      "transplant": "Kidney Transplant",
+      "surgeryLocation": "h",
+      "surgeryDate": "09-Apr-2026",
+      "arrivalLocation": "OPD",
+      "arrivalDate": "09-Apr-2026"
     }
-  ]
-
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

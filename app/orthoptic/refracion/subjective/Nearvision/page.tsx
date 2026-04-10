@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { Button, Col, Form, Input, Radio, Row, Select } from "antd";
-import styles from "./intermedia.module.css";
-import { useSubjectiveSummary } from "../subjective-context";
+import { Col, Form, Row, Radio, Select, Input, Button } from "antd";
+import styles from "./nearvision.module.css";
 import Link from "next/link";
+import { useSubjectiveSummary } from "../subjective-context";
 
-type InterMediaFormValues = {
-  intermedia?: string;
+type NearvisionFormvalues = {
+  nearvision?: string;
   righteye?: string;
-  rightSphericalWhole?: string | number;
-  rightSphericalChart?: string;
-  rightChart?: string;
+  rightspherical?: string | number;
+  rightsphericalwhole?: string;
+  rightshericalchart?: string;
   lefteye?: string;
-  leftSphericalWhole?: string | number;
-  leftSphericalChart?: string;
-  leftChart?: string;
+  leftspherical?: string | number;
+  leftsphericalwhole?: string;
+  leftshericalchart?: string;
 };
 
 const decimalOptions = [
@@ -30,43 +30,38 @@ const chartOptions = [
   { value: "N12", label: "N12" },
   { value: "N10", label: "N10" },
   { value: "N8", label: "N8" },
-  { value: "N6", label: "N6" },
-  { value: "N2", label: "N2" },
 ];
 
-const sphericalInputStyle = { width: 90, height: 25 };
-const selectStyle = { width: 75, height: 25 };
-
-const InterMedia = () => {
-  const [form] = Form.useForm<InterMediaFormValues>();
+const NearVision = () => {
+  const [form] = Form.useForm<NearvisionFormvalues>();
   const { updateSummaryRow } = useSubjectiveSummary();
-  const intermedia = Form.useWatch("intermedia", form);
+  const nearvision = Form.useWatch("nearvision", form);
   const rightEye = Form.useWatch("righteye", form);
   const leftEye = Form.useWatch("lefteye", form);
-  const rightSphericalValue = Form.useWatch("rightSphericalWhole", form);
-  const leftSphericalValue = Form.useWatch("leftSphericalWhole", form);
+  const rightSphericalValue = Form.useWatch("rightspherical", form);
+  const leftSphericalValue = Form.useWatch("leftspherical", form);
 
   useEffect(() => {
-    if (intermedia !== "yes") {
+    if (nearvision !== "yes") {
       form.setFieldsValue({
         righteye: undefined,
-        rightSphericalWhole: undefined,
-        rightSphericalChart: undefined,
-        rightChart: undefined,
+        rightspherical: undefined,
+        rightsphericalwhole: undefined,
+        rightshericalchart: undefined,
         lefteye: undefined,
-        leftSphericalWhole: undefined,
-        leftSphericalChart: undefined,
-        leftChart: undefined,
+        leftspherical: undefined,
+        leftsphericalwhole: undefined,
+        leftshericalchart: undefined,
       });
     }
-  }, [form, intermedia]);
+  }, [form, nearvision]);
 
   useEffect(() => {
     if (rightEye !== "yes") {
       form.setFieldsValue({
-        rightSphericalWhole: undefined,
-        rightSphericalChart: undefined,
-        rightChart: undefined,
+        rightspherical: undefined,
+        rightsphericalwhole: undefined,
+        rightshericalchart: undefined,
       });
     }
   }, [form, rightEye]);
@@ -74,15 +69,15 @@ const InterMedia = () => {
   useEffect(() => {
     if (leftEye !== "yes") {
       form.setFieldsValue({
-        leftSphericalWhole: undefined,
-        leftSphericalChart: undefined,
-        leftChart: undefined,
+        leftspherical: undefined,
+        leftsphericalwhole: undefined,
+        leftshericalchart: undefined,
       });
     }
   }, [form, leftEye]);
 
-  const setSignedField = (
-    field: "rightSphericalWhole" | "leftSphericalWhole",
+  const setPositiveField = (
+    field: "rightspherical" | "leftspherical",
     value: number | "",
   ) => {
     if (value === "") {
@@ -95,7 +90,7 @@ const InterMedia = () => {
     });
   };
 
-  const stepValue = (field: "rightSphericalWhole" | "leftSphericalWhole") => {
+  const stepValue = (field: "rightspherical" | "leftspherical") => {
     const current = form.getFieldValue(field);
     const currentNumber =
       current === undefined || current === null || current === ""
@@ -128,11 +123,14 @@ const InterMedia = () => {
       sphericalWhole === undefined || sphericalWhole === null || sphericalWhole === ""
         ? ""
         : `+${Math.abs(Number(sphericalWhole))}`;
+
     const summaryText = [
       signedWhole ? `Add ${signedWhole}${sphericalChart ? `.${sphericalChart}` : ""}` : "",
       sideLabel,
       chart ?? "",
-    ].filter(Boolean).join(" ");
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     return {
       spherical: summaryText,
@@ -143,20 +141,20 @@ const InterMedia = () => {
     };
   };
 
-  const handleFinish = (values: InterMediaFormValues) => {
-    updateSummaryRow("intermediate-vision", {
+  const handleFinish = (values: NearvisionFormvalues) => {
+    updateSummaryRow("near-vision", {
       rightEye: buildEyeSummary(
         values.righteye,
-        values.rightSphericalWhole,
-        values.rightSphericalChart,
-        values.rightChart,
+        values.rightspherical,
+        values.rightsphericalwhole,
+        values.rightshericalchart,
         "Right Eye",
       ),
       leftEye: buildEyeSummary(
         values.lefteye,
-        values.leftSphericalWhole,
-        values.leftSphericalChart,
-        values.leftChart,
+        values.leftspherical,
+        values.leftsphericalwhole,
+        values.leftshericalchart,
         "Left Eye",
       ),
     });
@@ -168,11 +166,11 @@ const InterMedia = () => {
         <div className="flex flex-col gap-3">
           <Row gutter={24} align="middle">
             <Col span={4}>
-              <span className="font-bold">Intermediate Vision(IV)</span>
+              <span className="font-bold">Near Vision(NV)</span>
             </Col>
             <Col>
-              <Form.Item name="intermedia" noStyle>
-                <Radio.Group name="intermedia" size="small">
+              <Form.Item noStyle name="nearvision">
+                <Radio.Group name="nearvision" size="small">
                   <Radio value="no">No</Radio>
                   <Radio value="yes">yes</Radio>
                 </Radio.Group>
@@ -185,25 +183,25 @@ const InterMedia = () => {
               <span className="font-bold">Right Eye</span>
             </Col>
             <Col span={3}>
-              <Form.Item name="righteye" noStyle>
+              <Form.Item noStyle name="righteye">
                 <Radio.Group
                   name="righteye"
                   size="small"
-                  disabled={intermedia !== "yes"}
+                  disabled={nearvision !== "yes"}
                 >
                   <Radio value="no">No</Radio>
                   <Radio value="yes">yes</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
-            <Col span={7}>
-              <div className="flex w-full items-center gap-2">
-                <span className="w-24 shrink-0 font-bold text-sky-700">Spherical</span>
+            <Col span={6}>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sky-700">Spherical</span>
                 <div className={rightEye !== "yes" ? "pointer-events-none opacity-50" : ""}>
-                  <Form.Item name="rightSphericalWhole" noStyle>
+                  <Form.Item noStyle name="rightspherical">
                     <Input
                       size="small"
-                      style={sphericalInputStyle}
+                      style={{ width: 90, height: 25 }}
                       disabled={rightEye !== "yes"}
                       className="text-center"
                       addonBefore={
@@ -214,8 +212,7 @@ const InterMedia = () => {
                             cursor: rightEye === "yes" ? "pointer" : "default",
                           }}
                           onClick={() =>
-                            rightEye === "yes" &&
-                            stepValue("rightSphericalWhole")
+                            rightEye === "yes" && stepValue("rightspherical")
                           }
                         >
                           +
@@ -230,32 +227,31 @@ const InterMedia = () => {
                       onChange={(e) => {
                         const cleaned = e.target.value.replace(/[^0-9]/g, "");
                         if (!cleaned) {
-                          return setSignedField("rightSphericalWhole", "");
+                          return setPositiveField("rightspherical", "");
                         }
-
-                        setSignedField("rightSphericalWhole", Number(cleaned));
+                        setPositiveField("rightspherical", Number(cleaned));
                       }}
                     />
                   </Form.Item>
                 </div>
-                <span className="text-xl font-bold">.</span>
-                <Form.Item name="rightSphericalChart" noStyle>
+                <span className="font-bold text-xl">.</span>
+                <Form.Item noStyle name="rightsphericalwhole">
                   <Select
                     size="small"
-                    style={selectStyle}
+                    style={{ width: 75, height: 25 }}
                     disabled={rightEye !== "yes"}
                     options={decimalOptions}
                   />
                 </Form.Item>
               </div>
             </Col>
-            <Col span={4}>
-              <div className="flex w-full items-center gap-2 ">
-                <span className="w-14 shrink-0 font-bold text-sky-700">chart</span>
-                <Form.Item name="rightChart" noStyle>
+            <Col span={3}>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sky-700">chart</span>
+                <Form.Item noStyle name="rightshericalchart">
                   <Select
                     size="small"
-                    style={selectStyle}
+                    style={{ width: 75, height: 25 }}
                     disabled={rightEye !== "yes"}
                     options={chartOptions}
                   />
@@ -269,25 +265,25 @@ const InterMedia = () => {
               <span className="font-bold">Left Eye</span>
             </Col>
             <Col span={3}>
-              <Form.Item name="lefteye" noStyle>
+              <Form.Item noStyle name="lefteye">
                 <Radio.Group
                   name="lefteye"
                   size="small"
-                  disabled={intermedia !== "yes"}
+                  disabled={nearvision !== "yes"}
                 >
                   <Radio value="no">No</Radio>
                   <Radio value="yes">yes</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
-            <Col span={7}>
-              <div className="flex w-full items-center gap-2">
-                <span className="w-24 shrink-0 font-bold text-sky-700">Spherical</span>
+            <Col span={6}>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sky-700">Spherical</span>
                 <div className={leftEye !== "yes" ? "pointer-events-none opacity-50" : ""}>
-                  <Form.Item name="leftSphericalWhole" noStyle>
+                  <Form.Item noStyle name="leftspherical">
                     <Input
                       size="small"
-                      style={sphericalInputStyle}
+                      style={{ width: 90, height: 25 }}
                       disabled={leftEye !== "yes"}
                       className="text-center"
                       addonBefore={
@@ -298,47 +294,46 @@ const InterMedia = () => {
                             cursor: leftEye === "yes" ? "pointer" : "default",
                           }}
                           onClick={() =>
-                            leftEye === "yes" &&
-                            stepValue("leftSphericalWhole")
+                            leftEye === "yes" && stepValue("leftspherical")
                           }
                         >
                           +
                         </div>
                       }
                       value={
-                        leftSphericalValue === undefined || leftSphericalValue === ""
+                        leftSphericalValue === undefined ||
+                        leftSphericalValue === ""
                           ? ""
                           : Math.abs(Number(leftSphericalValue))
                       }
                       onChange={(e) => {
                         const cleaned = e.target.value.replace(/[^0-9]/g, "");
                         if (!cleaned) {
-                          return setSignedField("leftSphericalWhole", "");
+                          return setPositiveField("leftspherical", "");
                         }
-
-                        setSignedField("leftSphericalWhole", Number(cleaned));
+                        setPositiveField("leftspherical", Number(cleaned));
                       }}
                     />
                   </Form.Item>
                 </div>
-                <span className="text-xl font-bold">.</span>
-                <Form.Item name="leftSphericalChart" noStyle>
+                <span className="font-bold text-xl">.</span>
+                <Form.Item noStyle name="leftsphericalwhole">
                   <Select
                     size="small"
-                    style={selectStyle}
+                    style={{ width: 75, height: 25 }}
                     disabled={leftEye !== "yes"}
                     options={decimalOptions}
                   />
                 </Form.Item>
               </div>
             </Col>
-            <Col span={4}>
-              <div className="flex w-full items-center gap-2">
-                <span className="w-14 shrink-0 font-bold text-sky-700">chart</span>
-                <Form.Item name="leftChart" noStyle>
+            <Col span={3}>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sky-700">chart</span>
+                <Form.Item noStyle name="leftshericalchart">
                   <Select
                     size="small"
-                    style={selectStyle}
+                    style={{ width: 75, height: 25 }}
                     disabled={leftEye !== "yes"}
                     options={chartOptions}
                   />
@@ -348,18 +343,17 @@ const InterMedia = () => {
           </Row>
 
           <Row gutter={24} align="middle">
-            <Col span={4} />
             <Col span={3} />
-            <Col span={6} />
-            <Col span={4}>
-              <div className=" flex gap-1 ">
-                <Link href="/orthoptic/refracion/subjective/Divisondistance">
+            <Col span={5} />
+            <Col span={8}>
+              <div className="ml-10 flex justify-end gap-2">
+                <Link href="/orthoptic/refracion/subjective/InterMediatevision">
                   <Button className={styles.backButton}>Back</Button>
                 </Link>
                 <Button htmlType="submit" className={styles.saveButton}>
                   Save
                 </Button>
-                <Link href="/orthoptic/refracion/subjective/Nearvision">
+                <Link href="/orthoptic/refracion/subjective/Interpuppilarydistance">
                   <Button className={styles.nextButton}>Next</Button>
                 </Link>
               </div>
@@ -371,4 +365,4 @@ const InterMedia = () => {
   );
 };
 
-export default InterMedia;
+export default NearVision;

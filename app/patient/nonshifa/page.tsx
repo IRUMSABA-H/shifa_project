@@ -43,9 +43,39 @@ export default function NonShifaPage() {
   };
 
   // ✅ All States
-  const [patients, setPatients] = useState<NonShifaPatient[]>([]);
-  const [allDataFromStorage, setAllDataFromStorage] = useState<NonShifaPatient[] >([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [patients, setPatients] = useState<NonShifaPatient[]>(() => {
+    if (typeof window === "undefined") return [];
+
+    const saved = localStorage.getItem("nonShifaPatients");
+    const activeUserId = localStorage.getItem("activeUser");
+
+    if (!saved || !activeUserId) return [];
+
+    try {
+      const parsed = JSON.parse(saved) as (NonShifaPatient & {
+        userId?: string | null;
+      })[];
+      return parsed.filter((patient) => patient.userId === activeUserId);
+    } catch (error) {
+      console.error("failed to access non-shifa patients", error);
+      return [];
+    }
+  });
+  const [allDataFromStorage, setAllDataFromStorage] = useState<
+    NonShifaPatient[]
+  >(() => {
+    if (typeof window === "undefined") return [];
+
+    const saved = localStorage.getItem("nonShifaPatients");
+    if (!saved) return [];
+
+    try {
+      return JSON.parse(saved) as NonShifaPatient[];
+    } catch (error) {
+      console.error("failed to access non-shifa storage", error);
+      return [];
+    }
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [viewData, setViewData] = useState<NonShifaPatient | null>(null);
@@ -85,7 +115,6 @@ export default function NonShifaPage() {
         );
         setPatients(filtered);
       }
-      setIsLoaded(true);
     };
     loadData();
   }, [router]);
@@ -197,7 +226,7 @@ export default function NonShifaPage() {
   };
   const handleValidationsucess = () => {
     api.success({
-      message: "",
+      title: "",
       description: "Patient record added sucessfully!",
       showProgress: true,
       duration: 3,
@@ -345,7 +374,6 @@ export default function NonShifaPage() {
     },
   ];
 
-  if (!isLoaded) return null;
   const handimport = () => {
     if (viewData) {
       localStorage.setItem("importdata", JSON.stringify(viewData));

@@ -1,0 +1,116 @@
+/* Subjective Table Container */
+.summaryTableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Main Table Styling */
+.summaryTable :global(.ant-table) {
+  border: none !important;
+}
+
+/* 1. Styling the Eye Label Row (Right Eye / Left Eye) */
+.eyeLabelRow {
+  background-color: white !important;
+  border: none !important; /* Non-blue background */
+}
+
+.eyeLabelTh {
+  color: #1e3a8a !important; /* Blue text color of the label */
+  font-weight: bold;
+  font-size: 14px;
+  text-align: left !important;
+  padding: 8px 16px !important;
+  border: none !important; /* Remove borders for this row */
+  border-top: none !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  background-color: white !important;
+}
+
+.emptyTh,
+.gapTh {
+  background-color: white !important;
+  border: none !important;
+  padding: 0px !important;
+  width: 0px !important;
+  box-shadow: none !important;
+ 
+}
+
+/* 2. Styling the Data Header Row (SPH, CYL, etc.) */
+.summaryTable :global(.ant-table-thead > tr:last-child > th) {
+  background-color: #096ea1 !important; /* Blue background from image */
+  color: white !important;
+  text-align: center !important;
+  font-weight: bold !important;
+  font-size: 10px !important;
+  padding: 10px 7px !important;
+  border-inline-end: none !important;
+  white-space: nowrap !important;
+}
+
+/* Remove last border right for Action columns */
+.summaryTable :global(.ant-table-thead > tr:last-child > th:nth-child(6)),
+.summaryTable :global(.ant-table-thead > tr:last-child > th:last-child) {
+  border-right: 1px solid #f0f0f0 !important;
+  padding: 10px !important;
+}
+
+.summaryTable :global(.ant-table-thead > tr:last-child > th.gapHeaderCell) {
+  background-color: white !important;
+  color: transparent !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.summaryTable :global(.ant-table-thead > tr:last-child > th:nth-child(7)) {
+  background-color: white !important;
+  color: transparent !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* 3. Styling the Table Body */
+.summaryTable :global(.ant-table-tbody > tr > td) {
+  padding: 9px 10px !important;
+  font-size: 10px;
+  color: #242931; /* slate-600 */
+}
+
+/* Bold values like in image */
+.summaryTable :global(.ant-table-tbody > tr > td) {
+  font-weight: 400;
+}
+
+/* Styling the first label column */
+.labelColumn {
+  background-color: #fafafa;
+  border-right: 1px solid rgb(237, 226, 226)!important;
+  border-left: 1px solid white !important;
+}
+
+/* Styling the Gap Column to create difference between tables */
+.gapColumn {
+  background-color: white !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0px !important;
+  width: 1px !important; 
+  box-shadow: none !important;
+}
+
+
+.summaryTable :global(.ant-table-tbody > tr td[colspan="5"]) {
+  text-align: left;
+  color: #1e293b; /* table text color */
+}

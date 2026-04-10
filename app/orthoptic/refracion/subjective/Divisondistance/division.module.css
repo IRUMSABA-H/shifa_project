@@ -1,0 +1,45 @@
+.hand {
+  margin-left: 36px !important;
+}
+.light {
+  margin-left: 34px !important;
+}
+.nolight {
+  margin-left: 33px !important;
+}
+.saveButton {
+  background-color: green !important;
+  color: white !important;
+  text-align: center !important;
+  padding: 12px 10px !important;
+  margin-left: 21px !important;
+
+}
+.nextButton {
+  background-color: #096ea1 !important;
+  color: white !important;
+ text-align: center !important;
+ padding: 12px 10px !important;
+}
+.radiogroup {
+  margin-right: 4px !important;
+}
+.visualAcuityRow {
+  margin-top: 2px;
+}
+.visualAcuityCompact :global(.ant-form-item) {
+  margin-bottom: 2px !important;
+}
+.visualAcuityCompact :global(.ant-form-item-control) {
+  min-height:  auto !important;
+}
+.righteye {
+  font-weight: bold !important;
+  margin-left: 35px !important;
+}
+.axios {
+  margin-left: 30px !important;
+}
+.smallRadio :global(.ant-radio-wrapper) {
+  font-size: 12px !important;
+}

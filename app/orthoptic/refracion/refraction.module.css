@@ -27,22 +27,31 @@
 
 .addButton {
   border: none;
-  background-color: #4cacf0;
+  background-color: #4cacf0 ;
   margin-left: 15px;
 }
 
 .nextButton {
-  color: white;
-  background-color: #096ea1;
+  color: white !important;
+  background-color: #096ea1 !important;
   border: none;
+  padding: 12px 15px !important;
+  margin-right: 55px !important;
 }
 
 .saveButton {
-  color: white;
-  background-color: green;
+  color: white !important;
+  background-color: green !important;
   border: none;
+   padding: 12px 15px !important;
 }
 
 .inputSpacing {
   margin-right: 50px;
+}
+.yes{
+  margin-left: 5px;
+}
+.saveButton{
+  color: #096ea1;
 }

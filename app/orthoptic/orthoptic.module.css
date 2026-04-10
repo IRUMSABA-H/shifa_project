@@ -56,28 +56,24 @@
 }
 
 .addButton {
-  background-color: green;
-  border: none;
+  background-color: green !important;
+  /* border: none;
   padding: 10px 14px;
   font-weight: normal;
-  transition: all 0.3s ease;
-  margin-left: 30px;
+  transition: all 0.3s ease; */
+  margin-left: 70px !important;
+  
 }
 
 .primaryButton {
-  background-color: #096ea1;
-  color: white;
-  padding: 10px 10px;
-  min-width: 100px;
+  background-color: #096ea1 !important;
+  color: white !important;
+  padding: 12px 15px !important;
+  margin-left: 67px !important;
+ 
 }
 
-.secondaryButton {
-  background-color: white;
-  color: #096ea1;
-  padding: 10px 5px;
-  border-color: #096ea1;
-  min-width: 100px;
-}
+
 
 .successButton {
   background-color: green;
@@ -185,25 +181,29 @@
 }
 
 .radioOffsetLight {
-  margin-left: 58px;
+  margin-left: 57px !important;
 }
 
-.radioOffsetLeftEye {
-  margin-left: 98px;
-}
 
-.radioOffsetRightEye {
-  margin-right: 15px;
-}
 
 .radioOffsetNoLight {
-  margin-left: 50px;
+  margin-left: 47px !important;
 }
 
-.denominator {
-  margin-right: 200px;
-}
 
-.denominatorr {
-  margin-left: 0;
+.saveButton{
+  background-color: #096ea1 !important;
+  color: white;
+}
+.input{
+  margin-right: 10px !important;
+}
+.righteye{
+  margin-left: 45px !important;
+}
+.lefteye{
+  margin-left: 110px !important;
+}
+.american{
+  margin-left: 20px !important;
 }

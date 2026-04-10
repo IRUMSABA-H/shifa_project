@@ -21,7 +21,7 @@
 
 .permission-refresh-icon {
   font-size: 14px;
-  color: black;
+  color: black !important;
   cursor: pointer;
 }
 
@@ -31,12 +31,12 @@
 
 .permission-table .ant-table-thead > tr > th {
   background-color: #096ea1 !important;
-  color: #fff !important;
+  color: #fff !important ;
   font-size: 11px !important;
   text-transform: uppercase;
   border-radius: 0px !important;
   
-  /* padding: 8px !important; */
+ 
 }
 
 
@@ -52,14 +52,14 @@
 }
 
 .permission-name-cell {
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   gap: 6px;
 }
 
 .folder-row {
   font-weight: 600;
-  color: #2e5f89;
+  color: #2e5f89 !important;
 }
 /* for the icons of the permission table */
 .permission-file-icon {
@@ -68,7 +68,7 @@
 }
 
 .permission-folder-icon {
-  color: #5f8fb8;
+  color: #5f8fb8 !important ;
   font-size: 12px;
 }
 
@@ -78,18 +78,18 @@
   height: 18px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #93c5fd;
+  border: 1px solid #93c5fd !important;
   border-radius: 6px;
-  color: #2563eb;
+  color: #2563eb !important;
   font-size: 10px;
   cursor: pointer;
   background: #eff6ff;
 }
 
 .expand-placeholder {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
+  display: inline-block !important;
+  width: 18px !important;
+  height: 18px !important;
 }
 .permission-table .ant-table-tbody > tr:hover > td {
   background: #f1f5f9 !important;
@@ -97,22 +97,22 @@
 
 .permission-col-filter,
 .permission-col-filter-active {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .permission-col-filter {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .permission-col-filter-active {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .permission-filter-dropdown {
-  width: 220px;
+  width: 220px !important;
   padding: 10px;
-  background: #ffffff;
-  border: 1px solid #dbe3ec;
+  background: #ffffff !important;
+  border: 1px solid #dbe3ec !important;
   border-radius: 10px;
   box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
 }
